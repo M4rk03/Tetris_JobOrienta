@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scenes/BackgroundParallax.tscn" type="PackedScene" id=1]
+[ext_resource path="res://fonts/Peaberry Monospace/PeaberryMono.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://scripts/game_over.gd" type="Script" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 56
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 24
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+font_data = ExtResource( 2 )
+
+[node name="GameOver" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="ParallaxBackground" parent="." instance=ExtResource( 1 )]
+
+[node name="Thanks" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 320.0
+margin_top = 192.0
+margin_right = 1088.0
+margin_bottom = 252.0
+custom_fonts/font = SubResource( 1 )
+text = "Grazie per aver giocato!"
+
+[node name="ScoreValue" type="Label" parent="."]
+margin_top = 304.0
+margin_right = 1368.0
+margin_bottom = 352.0
+custom_fonts/font = SubResource( 5 )
+align = 1
+
+[node name="ResultStore" type="Label" parent="."]
+margin_left = 384.0
+margin_top = 384.0
+margin_right = 1024.0
+margin_bottom = 418.0
+custom_fonts/font = SubResource( 3 )
+text = "Inserisci il tuo nome"
+align = 1
+valign = 1
+
+[node name="InsertName" type="LineEdit" parent="ResultStore"]
+margin_left = 192.0
+margin_top = 48.0
+margin_right = 448.0
+margin_bottom = 88.0
+custom_fonts/font = SubResource( 5 )
+align = 1
+
+[node name="SendResult" type="Button" parent="ResultStore"]
+margin_left = 224.0
+margin_top = 104.0
+margin_right = 416.0
+margin_bottom = 127.0
+custom_fonts/font = SubResource( 4 )
+text = "Invia punteggio"
+
+[connection signal="text_changed" from="ResultStore/InsertName" to="." method="_on_LineEdit_text_changed"]
+[connection signal="pressed" from="ResultStore/SendResult" to="." method="_on_SendResult_pressed"]
