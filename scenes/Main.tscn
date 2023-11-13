@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://scenes/BackgroundParallax.tscn" type="PackedScene" id=1]
 [ext_resource path="res://fonts/Peaberry Monospace/PeaberryMono.ttf" type="DynamicFontData" id=2]
@@ -20,15 +20,71 @@ use_filter = true
 extra_spacing_char = 2
 font_data = ExtResource( 2 )
 
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+content_margin_top = 7.0
+bg_color = Color( 0.337255, 0.505882, 0.913725, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=9]
+content_margin_top = 7.0
+bg_color = Color( 0.337255, 0.505882, 0.913725, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.666667, 0.666667, 0.666667, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=6]
+content_margin_top = 7.0
+bg_color = Color( 0.145098, 0.294118, 0.647059, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.666667, 0.666667, 0.666667, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=7]
+content_margin_top = 7.0
+bg_color = Color( 0.211765, 0.4, 0.847059, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [sub_resource type="DynamicFont" id=2]
 size = 36
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 extra_spacing_char = 2
-font_data = ExtResource( 2 )
-
-[sub_resource type="DynamicFont" id=5]
 font_data = ExtResource( 2 )
 
 [node name="Main" type="Node2D"]
@@ -73,23 +129,17 @@ script = ExtResource( 5 )
 [node name="StartTimer" type="Timer" parent="StartCountdown"]
 autostart = true
 
-[node name="PalletCountdown" type="Label" parent="."]
-margin_left = 256.0
-margin_top = 288.0
-margin_right = 384.0
-margin_bottom = 352.0
-custom_fonts/font = SubResource( 2 )
-align = 1
-valign = 1
-script = ExtResource( 4 )
-
 [node name="ClosePalletButton" type="Button" parent="."]
-margin_left = 240.0
-margin_top = 728.0
-margin_right = 369.0
-margin_bottom = 751.0
+margin_left = 233.0
+margin_top = 730.0
+margin_right = 372.0
+margin_bottom = 757.0
 focus_mode = 0
 custom_fonts/font = SubResource( 5 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 7 )
 disabled = true
 enabled_focus_mode = 0
 text = "Chiudi Pallet"
@@ -97,17 +147,27 @@ text = "Chiudi Pallet"
 [node name="LeftPallet" parent="." instance=ExtResource( 3 )]
 position = Vector2( 176, 448 )
 
+[node name="PalletCountdown" type="Label" parent="LeftPallet"]
+margin_left = 65.0
+margin_top = -146.0
+margin_right = 193.0
+margin_bottom = -82.0
+custom_fonts/font = SubResource( 2 )
+align = 1
+valign = 1
+script = ExtResource( 4 )
+
 [node name="CentralPallet" parent="." instance=ExtResource( 3 )]
-position = Vector2( 576, 448 )
+position = Vector2( 560, 448 )
 
 [node name="RightPallet" parent="." instance=ExtResource( 3 )]
-position = Vector2( 976, 448 )
+position = Vector2( 944, 448 )
 
 [connection signal="game_start" from="StartCountdown" to="Generator" method="_on_StartCountdown_game_start"]
-[connection signal="game_start" from="StartCountdown" to="PalletCountdown" method="_on_StartCountdown_game_start"]
+[connection signal="game_start" from="StartCountdown" to="LeftPallet/PalletCountdown" method="_on_StartCountdown_game_start"]
 [connection signal="game_start" from="StartCountdown" to="LeftPallet" method="_on_StartCountdown_game_start"]
 [connection signal="timeout" from="StartCountdown/StartTimer" to="StartCountdown" method="_on_Timer_timeout"]
-[connection signal="change_pallet" from="PalletCountdown" to="Score" method="_on_PalletCountdown_change_pallet"]
-[connection signal="change_pallet" from="PalletCountdown" to="CentralPallet" method="_on_PalletCountdown_change_pallet"]
-[connection signal="change_pallet" from="PalletCountdown" to="RightPallet" method="_on_PalletCountdown_change_pallet"]
-[connection signal="pressed" from="ClosePalletButton" to="PalletCountdown" method="_on_ClosePalletButton_pressed"]
+[connection signal="pressed" from="ClosePalletButton" to="LeftPallet/PalletCountdown" method="_on_ClosePalletButton_pressed"]
+[connection signal="change_pallet" from="LeftPallet/PalletCountdown" to="Score" method="_on_PalletCountdown_change_pallet"]
+[connection signal="change_pallet" from="LeftPallet/PalletCountdown" to="CentralPallet" method="_on_PalletCountdown_change_pallet"]
+[connection signal="change_pallet" from="LeftPallet/PalletCountdown" to="RightPallet" method="_on_PalletCountdown_change_pallet"]

@@ -19,18 +19,12 @@ func calcMissed():
 	var gridEmpty = 64 - totInside
 	var malusEmpty = gridEmpty * 50
 	if(totalScore > 0):
-		if((totalScore - malusEmpty) < 0):
-			totalScore = 0
-		else:
+		if((totalScore - malusEmpty) >= 0):
 			totalScore -= malusEmpty
 	else:
 		totalScore = 0
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
-
-func _process(delta):
+func _process(_delta):
 	text = str(totalScore)
 
 func calcBonus():
@@ -40,6 +34,6 @@ func calcBonus():
 	palletScore += bonus
 	totalScore += palletScore
 
-func _on_PalletCountdown_change_pallet(palletGenerate):
+func _on_PalletCountdown_change_pallet(_nPallet):
 	calcMissed()
 	palletScore = 0

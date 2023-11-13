@@ -11,10 +11,24 @@ var shapeDictionary = [
 	"T-Shape"
 ]
 
-var posX = 256
+var posX
 var posY
-var valPosY = 160
+const conPosX = 256
+const conPosY = 176
 
+func selectedShape():
+	# Generates random shape name
+	var chosenShape = shapeDictionary[randi() % shapeDictionary.size()]
+	# Instances shape, sets shape position, puts in the array shapes
+	var shape = load("res://scenes/" + chosenShape + ".tscn").instance()
+	if chosenShape == "O-Shape":
+		posX = conPosX - 16
+		posY = conPosY - 16
+	else:
+		posX = conPosX
+		posY = conPosY
+	return shape
+		
 func generateShape():
 	# Pushes backwards every element in the array
 	for i in range (3, 0, -1):
@@ -24,12 +38,7 @@ func generateShape():
 		if(i == 3):
 			shapes[i].isPickable = true
 	
-	var chosenShape = shapeDictionary[randi() % shapeDictionary.size()]
-	var shape = load("res://scenes/" + chosenShape + ".tscn").instance()
-	if chosenShape == "I-Shape":
-		posY = valPosY + 16
-	else:
-		posY = valPosY
+	var shape = selectedShape()
 	shape.position.x = posX
 	shape.position.y = posY
 	# Connects generateShape() function to newly created shape
@@ -41,15 +50,7 @@ func generateShape():
 func _ready():
 	randomize()
 	for i in range(0, 4):
-		# Generates random shape name
-		var chosenShape = shapeDictionary[randi() % shapeDictionary.size()]
-		# Instances shape, sets shape position, puts in the array shapes
-		var shape = load("res://scenes/" + chosenShape + ".tscn").instance()
-		if chosenShape == "I-Shape":
-			posY = valPosY + 16
-		else:
-			posY = valPosY
-		
+		var shape = selectedShape()
 		shape.position.x = posX + (i * 160)
 		shape.position.y = posY
 		shape.connect("placed", self, "generateShape")
@@ -59,4 +60,5 @@ func _ready():
 
 func _on_StartCountdown_game_start():
 	shapes[3].isPickable = true
+	shapes[3].z_index += 1
 	

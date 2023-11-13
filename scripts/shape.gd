@@ -31,29 +31,15 @@ func countGridCollisions():
 
 func setPositionShape():
 	if "O-Shape" in self.name:
-		posShape = Vector2(0,0)
-	elif "I-Shape" in self.name:
-		if self.rotation_degrees == 90 or self.rotation_degrees == 270:
-			posShape = Vector2(-16,0)
-		else:
-			posShape = Vector2(0,-16)
-	elif "S-Shape" in self.name:
 		posShape = Vector2(-16,0)
-	elif "L-Shape" in self.name or "J-Shape" in self.name or "T-Shape" in self.name:
-		if self.rotation_degrees == 90 or self.rotation_degrees == 270:
-			posShape = Vector2(0,-16)
-		else:
-			posShape = Vector2(-16,0)
 	else:
-		posShape = Vector2(0,0)
+		posShape = Vector2(0,-17)
 	
 func dropShape():
 	if isDroppable:
 		position = Vector2(stepify(global_position.x, GRID_SIZE), stepify(global_position.y, GRID_SIZE))
-		print(position)
 		setPositionShape()
 		position += posShape
-		print(position)
 		isPickable = false
 		z_index -= 1
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
@@ -73,7 +59,7 @@ func checkIfDroppable():
 		else:
 			isDroppable = false
 			
-func _process(delta):
+func _process(_delta):
 	if isPickable:
 		checkIfDroppable()
 			
@@ -91,11 +77,16 @@ func _process(delta):
 			
 		if shapeTimer.is_stopped():
 			startShapeTimer()
+			
+		if self.position.y > 760:
+			queue_free()
+			get_parent().get_node("Score").palletScore -= 200
+			emit_signal("placed")
 
 func startShapeTimer():
 	shapeTimer.start()
 
 func _on_Timer_timeout():
 	if isPickable:
-		self.position.y += 16
+		self.position.y += 32
 		startShapeTimer()
