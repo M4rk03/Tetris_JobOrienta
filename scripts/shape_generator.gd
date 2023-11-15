@@ -21,7 +21,7 @@ func selectedShape():
 	var chosenShape = shapeDictionary[randi() % shapeDictionary.size()]
 	# Instances shape, sets shape position, puts in the array shapes
 	var shape = load("res://scenes/" + chosenShape + ".tscn").instance()
-	if chosenShape == "O-Shape":
+	if "O-Shape" in chosenShape:
 		posX = conPosX - 16
 		posY = conPosY - 16
 	else:
@@ -34,7 +34,6 @@ func generateShape():
 	for i in range (3, 0, -1):
 		shapes[i] = shapes[i-1]
 		shapes[i].position.x += 160
-		shapes[i].position.y = posY
 		if(i == 3):
 			shapes[i].isPickable = true
 	

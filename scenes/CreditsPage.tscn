@@ -47,7 +47,7 @@ margin_top = -35.5
 margin_right = 400.0
 margin_bottom = 35.5
 custom_fonts/font = SubResource( 2 )
-text = "Game made by Lorenzo Carta, Filippo Caneo e Ferrarese Marco"
+text = "Game made by Lorenzo Carta, Filippo Caneo e Marco Ferrarese"
 align = 1
 autowrap = true
 

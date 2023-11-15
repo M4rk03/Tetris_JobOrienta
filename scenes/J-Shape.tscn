@@ -29,5 +29,5 @@ collision_mask = 2
 [node name="ShapeCollision" type="CollisionPolygon2D" parent="ShapeArea2D"]
 position = Vector2( 24, 16 )
 rotation = 1.5708
-polygon = PoolVector2Array( -15.0001, -22.9999, 14.9999, -23.0001, 15.0003, 70.9999, -46.9997, 71.0002, -46.9999, 41.0002, -14.9999, 41.0001 )
+polygon = PoolVector2Array( -16.0001, -23.9999, 15.9999, -24.0001, 16.0003, 71.9999, -47.9997, 72.0002, -47.9999, 40.0002, -15.9999, 40.0001 )
 one_way_collision_margin = 0.0

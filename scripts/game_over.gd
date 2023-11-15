@@ -2,7 +2,7 @@ extends Node2D
 
 var player_name
 var points = SceneSwitcher.get_params("score")
-var file = "res://file_data.json"
+var path = "res://file_data.json"
 var id = 0
 var scores
 
@@ -24,7 +24,6 @@ func save():
 	file_data.name = player_name
 	print(player_name)
 	var file = File.new()
-	var path = "res://file_data.json"
 	if (file.file_exists(path)):
 		file.open(path, File.READ_WRITE)
 		scores = parse_json(file.get_as_text())

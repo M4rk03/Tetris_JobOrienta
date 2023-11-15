@@ -164,8 +164,8 @@ position = Vector2( 560, 448 )
 position = Vector2( 944, 448 )
 
 [connection signal="game_start" from="StartCountdown" to="Generator" method="_on_StartCountdown_game_start"]
-[connection signal="game_start" from="StartCountdown" to="LeftPallet/PalletCountdown" method="_on_StartCountdown_game_start"]
 [connection signal="game_start" from="StartCountdown" to="LeftPallet" method="_on_StartCountdown_game_start"]
+[connection signal="game_start" from="StartCountdown" to="LeftPallet/PalletCountdown" method="_on_StartCountdown_game_start"]
 [connection signal="timeout" from="StartCountdown/StartTimer" to="StartCountdown" method="_on_Timer_timeout"]
 [connection signal="pressed" from="ClosePalletButton" to="LeftPallet/PalletCountdown" method="_on_ClosePalletButton_pressed"]
 [connection signal="change_pallet" from="LeftPallet/PalletCountdown" to="Score" method="_on_PalletCountdown_change_pallet"]
