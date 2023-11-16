@@ -11,12 +11,12 @@ func _on_StartCountdown_game_start():
 			
 func _on_PalletCountdown_change_pallet(nPallet):
 	match(nPallet):
-		2:
+		1:
 			if(name == "CentralPallet"):
 				for grid in get_tree().get_nodes_in_group("GridElements"):
 					grid.queue_free()
 				_on_StartCountdown_game_start()
-		3:
+		2:
 			if(name == "RightPallet"):
 				for grid in get_tree().get_nodes_in_group("GridElements"):
 					grid.queue_free()

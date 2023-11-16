@@ -9,7 +9,7 @@ var isDroppable = false
 export var isPickable = false
 
 var shapeTimer
-var posShape
+
 
 #
 func _ready():
@@ -26,18 +26,19 @@ func countPoint():
 	if isDroppable:
 		for i in range(0, 4):
 			var el = blocks[i].global_position
-			if(el.x >= 192 && el.x <= 416 && el.y >= 496 && el.y <= 688):
-				insideCount += 1
+			if(el.y >= 496 && el.y <= 688):
+				var nPallet = get_parent().get_node("LeftPallet/PalletCountdown").nPallet
+				match(nPallet):
+					0:
+						if(el.x >= 192 && el.x <= 416):
+							insideCount += 1
+					1:
+						if(el.x >= 576 && el.x <= 800):
+							insideCount += 1
+					2:
+						if(el.x >= 960 && el.x <= 1184):
+							insideCount += 1
 		get_parent().get_node("Score").calcScore(insideCount)
-
-#
-func setPositionShape():
-	position = Vector2(stepify(global_position.x, GRID_SIZE), stepify(global_position.y, GRID_SIZE))
-	
-	if "O-Shape" in self.name:
-		posShape = Vector2(-16,0)
-	else:
-		posShape = Vector2(0,-16)
 
 #
 func setArrayPosition():
@@ -57,24 +58,20 @@ func collisionShape(value):
 			if pos == el || pos.y > 688:
 				n += 1
 	return n
+	
+#
+func controlCollision():
+	var n = collisionShape(Vector2(0,0))
+	if n != 0:
+		position += Vector2(0,-32)
+		controlCollision()
+	else:
+		setArrayPosition()
+	
 #
 func dropShape():
 	if isDroppable:
-		setPositionShape()
-		position += posShape
-		
-		var n = collisionShape(Vector2(0,0))
-		var cicle = true
-		
-		while (cicle):
-			if n != 0:
-				position += Vector2(0,-32)
-				collisionShape(Vector2(0,0))
-			else:
-				cicle = false
-		
-		setArrayPosition()
-		
+		controlCollision()
 		isPickable = false
 		isDroppable = false
 		z_index -= 1
@@ -88,8 +85,7 @@ func checkIfDroppable():
 	
 	for i in range(arrayAreaColliding.size()):
 		if(arrayAreaColliding[i].name == "ShapeArea2D"):
-			var n = collisionShape(Vector2(0,32))
-			if n != 0:
+			if collisionShape(Vector2(0,32)) != 0:
 				dropShape()
 		elif(arrayAreaColliding[i].name == "AreaGridElement"):
 			isDroppable = true

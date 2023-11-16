@@ -1,10 +1,9 @@
 extends Label
 
-signal change_pallet(palletGenerate)
+signal change_pallet(nPallet)
 
 var countdown = 60
 var nPallet = 0
-var palletGenerate = 2
 var palletTimer
 
 var nodeMain
@@ -32,9 +31,8 @@ func palletEnded():
 	palletTimer.connect("timeout", self, "_on_Timer_timeout")
 	countdown = 60
 	
-	emit_signal("change_pallet", palletGenerate)
-	nodeMain.get_node("ClosePalletButton").rect_position.x = 240 + (384 * (palletGenerate - 1))
-	palletGenerate += 1
+	emit_signal("change_pallet", nPallet)
+	nodeMain.get_node("ClosePalletButton").rect_position.x = 240 + (384 * (nPallet + 1))
 	rect_position.x = 65 + (386 * nPallet)
 	palletTimer.start()
 

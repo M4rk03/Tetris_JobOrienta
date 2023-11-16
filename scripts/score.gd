@@ -4,6 +4,7 @@ var totalScore = 0
 var totInside = 0
 var palletScore = 0
 
+
 func getTotalScore():
 	return totalScore
 
