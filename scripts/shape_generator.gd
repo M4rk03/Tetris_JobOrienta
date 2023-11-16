@@ -36,6 +36,7 @@ func generateShape():
 		shapes[i].position.x += 160
 		if(i == 3):
 			shapes[i].isPickable = true
+			shapes[3].z_index += 1
 	
 	var shape = selectedShape()
 	shape.position.x = posX

@@ -8,8 +8,6 @@ export var arrayPositionShape = []
 var isDroppable = false
 export var isPickable = false
 
-var insideCount = 0
-
 var shapeTimer
 var posShape
 
@@ -22,9 +20,12 @@ func _ready():
 #
 func countPoint():
 	yield(get_tree().create_timer(0.1), "timeout")
+	var insideCount = 0
+	var blocks = self.get_children()
 	
 	if isDroppable:
-		for el in arrayPositionShape:
+		for i in range(0, 4):
+			var el = blocks[i].global_position
 			if(el.x >= 192 && el.x <= 416 && el.y >= 496 && el.y <= 688):
 				insideCount += 1
 		get_parent().get_node("Score").calcScore(insideCount)
@@ -44,21 +45,35 @@ func setArrayPosition():
 	
 	for i in range(0, 4):
 		arrayPositionShape.append(blocks[i].global_position)
-		print(blocks[i].global_position)
 
+#
+func collisionShape(value):
+	var blocks = self.get_children()
+	var n = 0
+	for el in arrayPositionShape:
+		for i in range(0, 4):
+			var pos = blocks[i].global_position + value
+			#if pos == el || (pos.y > 688 && pos.x >= 192) || (pos.y > 688 && pos.x <= 416): 
+			if pos == el || pos.y > 688:
+				n += 1
+	return n
 #
 func dropShape():
 	if isDroppable:
 		setPositionShape()
 		position += posShape
-		setArrayPosition()
 		
-		var n = 0
-		for el in arrayPositionShape:
-			if position == el: 
-				n += 1
-		if n != 0:
-			print('combacia')
+		var n = collisionShape(Vector2(0,0))
+		var cicle = true
+		
+		while (cicle):
+			if n != 0:
+				position += Vector2(0,-32)
+				collisionShape(Vector2(0,0))
+			else:
+				cicle = false
+		
+		setArrayPosition()
 		
 		isPickable = false
 		isDroppable = false
@@ -73,7 +88,9 @@ func checkIfDroppable():
 	
 	for i in range(arrayAreaColliding.size()):
 		if(arrayAreaColliding[i].name == "ShapeArea2D"):
-			dropShape()
+			var n = collisionShape(Vector2(0,32))
+			if n != 0:
+				dropShape()
 		elif(arrayAreaColliding[i].name == "AreaGridElement"):
 			isDroppable = true
 		elif(arrayAreaColliding[i].name == "PalletArea2D"):
@@ -92,11 +109,14 @@ func _process(_delta):
 				self.rotation_degrees = 0
 				
 		if Input.is_action_just_pressed("left_move"):
-			self.position.x -= GRID_SIZE
+			if collisionShape(Vector2(-32,0)) == 0:
+				self.position.x -= GRID_SIZE
 		if Input.is_action_just_pressed("right_move"):
-			self.position.x += GRID_SIZE
+			if collisionShape(Vector2(32,0)) == 0:
+				self.position.x += GRID_SIZE
 		if Input.is_action_just_pressed("down_move"):
-			self.position.y += GRID_SIZE
+			if collisionShape(Vector2(0,32)) == 0:
+				self.position.y += GRID_SIZE
 			
 		if shapeTimer.is_stopped():
 			startShapeTimer()
