@@ -32,7 +32,7 @@ func palletEnded():
 	countdown = 60
 	
 	emit_signal("change_pallet", nPallet)
-	nodeMain.get_node("ClosePalletButton").rect_position.x = 240 + (384 * (nPallet + 1))
+	nodeMain.get_node("ClosePalletButton").rect_position.x = 240 + (384 * (nPallet))
 	rect_position.x = 65 + (386 * nPallet)
 	palletTimer.start()
 
@@ -44,7 +44,7 @@ func _on_Timer_timeout():
 	elif(nPallet != 2):
 		nPallet += 1
 		palletTimer.queue_free()
-		palletEnded()
+		nodeMain.get_node("Camion").move_camion()
 	else:
 		var score = nodeMain.get_node("Score").getTotalScore()
 		SceneSwitcher.change_scene("res://scenes/GameOver.tscn", {"score": score})

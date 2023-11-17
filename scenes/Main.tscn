@@ -1,10 +1,12 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/BackgroundParallax.tscn" type="PackedScene" id=1]
 [ext_resource path="res://fonts/Peaberry Monospace/PeaberryMono.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://scenes/Pallet.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/pallet_countdown.gd" type="Script" id=4]
 [ext_resource path="res://scripts/start_countdown.gd" type="Script" id=5]
+[ext_resource path="res://assets/camion.png" type="Texture" id=6]
+[ext_resource path="res://scripts/camion.gd" type="Script" id=7]
 [ext_resource path="res://scenes/Generator.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scripts/score.gd" type="Script" id=10]
 
@@ -162,6 +164,14 @@ position = Vector2( 560, 448 )
 
 [node name="RightPallet" parent="." instance=ExtResource( 3 )]
 position = Vector2( 944, 448 )
+
+[node name="Camion" type="Sprite" parent="."]
+visible = false
+position = Vector2( -300, 620 )
+scale = Vector2( 1.2, 1.2 )
+z_index = 1
+texture = ExtResource( 6 )
+script = ExtResource( 7 )
 
 [connection signal="game_start" from="StartCountdown" to="Generator" method="_on_StartCountdown_game_start"]
 [connection signal="game_start" from="StartCountdown" to="LeftPallet" method="_on_StartCountdown_game_start"]

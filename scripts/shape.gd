@@ -9,7 +9,7 @@ var isDroppable = false
 export var isPickable = false
 
 var shapeTimer
-
+var camion_callback
 
 #
 func _ready():
@@ -96,7 +96,9 @@ func checkIfDroppable():
 
 #		
 func _process(_delta):
-	if isPickable:
+	camion_callback = get_parent().get_node("Camion").callback
+	
+	if isPickable && !camion_callback:
 		checkIfDroppable()
 			
 		if Input.is_action_just_pressed("rotate"):
@@ -128,6 +130,6 @@ func startShapeTimer():
 
 #
 func _on_Timer_timeout():
-	if isPickable:
+	if isPickable && !camion_callback:
 		self.position.y += GRID_SIZE
 		startShapeTimer()
