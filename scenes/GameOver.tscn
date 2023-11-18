@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scenes/BackgroundParallax.tscn" type="PackedScene" id=1]
 [ext_resource path="res://fonts/Peaberry Monospace/PeaberryMono.ttf" type="DynamicFontData" id=2]
@@ -6,15 +6,47 @@
 
 [sub_resource type="DynamicFont" id=1]
 size = 56
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=5]
 size = 24
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 32
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+content_margin_top = 6.0
+bg_color = Color( 1, 1, 1, 0.392157 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id=10]
+content_margin_top = 6.0
+bg_color = Color( 1, 1, 1, 0.392157 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
 [sub_resource type="DynamicFont" id=4]
 font_data = ExtResource( 2 )
@@ -99,13 +131,15 @@ margin_top = 48.0
 margin_right = 458.0
 margin_bottom = 88.0
 custom_fonts/font = SubResource( 5 )
+custom_styles/focus = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
 align = 1
 
 [node name="SendResult" type="Button" parent="ResultStore"]
 margin_left = 224.0
-margin_top = 108.0
+margin_top = 128.0
 margin_right = 416.0
-margin_bottom = 140.0
+margin_bottom = 160.0
 custom_fonts/font = SubResource( 4 )
 custom_styles/hover = SubResource( 6 )
 custom_styles/pressed = SubResource( 7 )

@@ -12,6 +12,8 @@ font_data = ExtResource( 2 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 32
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
 [node name="CreditsPage" type="CanvasLayer"]
@@ -47,7 +49,7 @@ margin_top = -35.5
 margin_right = 400.0
 margin_bottom = 35.5
 custom_fonts/font = SubResource( 2 )
-text = "Game made by Lorenzo Carta, Filippo Caneo e Marco Ferrarese"
+text = "Game made by Lorenzo Carta, Filippo Caneo and Marco Ferrarese"
 align = 1
 autowrap = true
 
