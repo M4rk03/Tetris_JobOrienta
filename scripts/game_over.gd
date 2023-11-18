@@ -4,7 +4,6 @@ var player_name
 var points = SceneSwitcher.get_params("score")
 var path = "res://file_data.json"
 var id = 0
-var scores
 
 var file_data = {
 		"name" : player_name,
@@ -26,7 +25,7 @@ func save():
 	var file = File.new()
 	if (file.file_exists(path)):
 		file.open(path, File.READ_WRITE)
-		scores = parse_json(file.get_as_text())
+		var scores = parse_json(file.get_as_text())
 		id = max_id(scores) + 1
 		file.seek_end(-1)
 		file.store_string(",\n")

@@ -7,6 +7,7 @@ export var arrayPositionShape = []
 
 var isDroppable = false
 export var isPickable = false
+var used = 0
 
 var shapeTimer
 var camion_callback
@@ -61,22 +62,25 @@ func collisionShape(value):
 	
 #
 func controlCollision():
-	var n = collisionShape(Vector2(0,0))
-	if n != 0:
-		position += Vector2(0,-32)
-		controlCollision()
-	else:
-		setArrayPosition()
+	if isDroppable:
+		var n = collisionShape(Vector2(0,0))
+		if n != 0:
+			position += Vector2(0,-32)
+			controlCollision()
+		else:
+			setArrayPosition()
+			used = 1
+			return true
 	
 #
 func dropShape():
 	if isDroppable:
-		controlCollision()
-		isPickable = false
-		isDroppable = false
-		z_index -= 1
-		countPoint()
-		emit_signal("placed")
+		if controlCollision():
+			isPickable = false
+			isDroppable = false
+			z_index -= 1
+			countPoint()
+			emit_signal("placed")
 
 #	
 func checkIfDroppable():
@@ -85,8 +89,9 @@ func checkIfDroppable():
 	
 	for i in range(arrayAreaColliding.size()):
 		if(arrayAreaColliding[i].name == "ShapeArea2D"):
-			if collisionShape(Vector2(0,32)) != 0:
-				dropShape()
+#			if collisionShape(Vector2(0,32)) != 0:
+#				dropShape()
+			pass
 		elif(arrayAreaColliding[i].name == "AreaGridElement"):
 			isDroppable = true
 		elif(arrayAreaColliding[i].name == "PalletArea2D"):
@@ -102,9 +107,10 @@ func _process(_delta):
 		checkIfDroppable()
 			
 		if Input.is_action_just_pressed("rotate"):
-			self.rotation_degrees += 90
-			if self.rotation_degrees == 360:
-				self.rotation_degrees = 0
+			if collisionShape(Vector2(-32,0)) == 0 && collisionShape(Vector2(32,0)) == 0 && collisionShape(Vector2(0,32)) == 0:
+				self.rotation_degrees += 90
+				if self.rotation_degrees == 360:
+					self.rotation_degrees = 0
 				
 		if Input.is_action_just_pressed("left_move"):
 			if collisionShape(Vector2(-32,0)) == 0:
@@ -115,6 +121,8 @@ func _process(_delta):
 		if Input.is_action_just_pressed("down_move"):
 			if collisionShape(Vector2(0,32)) == 0:
 				self.position.y += GRID_SIZE
+			else:
+				dropShape()
 			
 		if shapeTimer.is_stopped():
 			startShapeTimer()
@@ -131,5 +139,8 @@ func startShapeTimer():
 #
 func _on_Timer_timeout():
 	if isPickable && !camion_callback:
-		self.position.y += GRID_SIZE
-		startShapeTimer()
+		if collisionShape(Vector2(0,32)) == 0:
+			self.position.y += GRID_SIZE
+			startShapeTimer()
+		else:
+			dropShape()
