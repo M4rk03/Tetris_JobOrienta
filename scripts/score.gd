@@ -4,10 +4,15 @@ var totalScore = 0
 var totInside = 0
 var palletScore = 0
 
+#
+func _process(_delta):
+	text = str(totalScore)
 
+#
 func getTotalScore():
 	return totalScore
 
+#
 func calcScore(inside):
 	totInside += inside
 	var outside = 4 - inside
@@ -16,6 +21,7 @@ func calcScore(inside):
 	totalScore += insideScore - outsideScore
 	palletScore += insideScore - outsideScore
 
+#
 func calcMissed():
 	var gridEmpty = 64 - totInside
 	var malusEmpty = gridEmpty * 50
@@ -25,16 +31,15 @@ func calcMissed():
 	else:
 		totalScore = 0
 
-func _process(_delta):
-	text = str(totalScore)
-
+#
 func calcBonus():
-	var time = get_parent().get_node("PalletCountdown").getCountdown()
+	var time = get_parent().get_node("LeftPallet/PalletCountdown").getCountdown()
 	# Bonus 10 points per second
 	var bonus = time * 10
 	palletScore += bonus
 	totalScore += palletScore
 
+#
 func _on_PalletCountdown_change_pallet(_nPallet):
 	calcMissed()
 	palletScore = 0

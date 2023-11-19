@@ -24,22 +24,21 @@ func countPoint():
 	var insideCount = 0
 	var blocks = self.get_children()
 	
-	if isDroppable:
-		for i in range(0, 4):
-			var el = blocks[i].global_position
-			if(el.y >= 496 && el.y <= 688):
-				var nPallet = get_parent().get_node("LeftPallet/PalletCountdown").nPallet
-				match(nPallet):
-					0:
-						if(el.x >= 192 && el.x <= 416):
-							insideCount += 1
-					1:
-						if(el.x >= 576 && el.x <= 800):
-							insideCount += 1
-					2:
-						if(el.x >= 960 && el.x <= 1184):
-							insideCount += 1
-		get_parent().get_node("Score").calcScore(insideCount)
+	for i in range(0, 4):
+		var el = blocks[i].global_position
+		if(el.y >= 496 && el.y <= 688):
+			var nPallet = get_parent().get_node("LeftPallet/PalletCountdown").nPallet
+			match(nPallet):
+				0:
+					if(el.x >= 192 && el.x <= 416):
+						insideCount += 1
+				1:
+					if(el.x >= 576 && el.x <= 800):
+						insideCount += 1
+				2:
+					if(el.x >= 960 && el.x <= 1184):
+						insideCount += 1
+	get_parent().get_node("Score").calcScore(insideCount)
 
 #
 func setArrayPosition():
@@ -89,8 +88,6 @@ func checkIfDroppable():
 	
 	for i in range(arrayAreaColliding.size()):
 		if(arrayAreaColliding[i].name == "ShapeArea2D"):
-#			if collisionShape(Vector2(0,32)) != 0:
-#				dropShape()
 			pass
 		elif(arrayAreaColliding[i].name == "AreaGridElement"):
 			isDroppable = true
@@ -129,7 +126,7 @@ func _process(_delta):
 			
 		if self.position.y > 760:
 			queue_free()
-			get_parent().get_node("Score").palletScore -= 200
+			get_parent().get_node("Score").totalScore -= 200
 			emit_signal("placed")
 
 #
