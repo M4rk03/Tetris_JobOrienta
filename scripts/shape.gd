@@ -12,32 +12,42 @@ var used = 0
 var shapeTimer
 var camion_callback
 
+var x_min
+var x_max
+
 #
 func _ready():
 	shapeTimer = Timer.new()
 	add_child(shapeTimer)
 	shapeTimer.connect("timeout", self, "_on_Timer_timeout")
+	
+func get_nPallet():
+	var nPallet = get_parent().get_node("LeftPallet/PalletCountdown").nPallet
+	
+	match(nPallet):
+				0:
+					x_min = 192
+					x_max = 416
+				1:
+					x_min = 576
+					x_max = 800
+				2:
+					x_min = 960
+					x_max = 1184
+	return nPallet
 
 #
 func countPoint():
 	yield(get_tree().create_timer(0.1), "timeout")
 	var insideCount = 0
 	var blocks = self.get_children()
+	get_nPallet()
 	
 	for i in range(0, 4):
 		var el = blocks[i].global_position
 		if(el.y >= 496 && el.y <= 688):
-			var nPallet = get_parent().get_node("LeftPallet/PalletCountdown").nPallet
-			match(nPallet):
-				0:
-					if(el.x >= 192 && el.x <= 416):
-						insideCount += 1
-				1:
-					if(el.x >= 576 && el.x <= 800):
-						insideCount += 1
-				2:
-					if(el.x >= 960 && el.x <= 1184):
-						insideCount += 1
+			if(el.x >= x_min && el.x <= x_max):
+				insideCount += 1
 	get_parent().get_node("Score").calcScore(insideCount)
 
 #
@@ -51,11 +61,12 @@ func setArrayPosition():
 func collisionShape(value):
 	var blocks = self.get_children()
 	var n = 0
+	get_nPallet()
+	
 	for el in arrayPositionShape:
 		for i in range(0, 4):
 			var pos = blocks[i].global_position + value
-			#if pos == el || (pos.y > 688 && pos.x >= 192) || (pos.y > 688 && pos.x <= 416): 
-			if pos == el || pos.y > 688:
+			if pos == el || (pos.x >= x_min && pos.x <= x_max && pos.y > 688):
 				n += 1
 	return n
 	
@@ -92,7 +103,9 @@ func checkIfDroppable():
 		elif(arrayAreaColliding[i].name == "AreaGridElement"):
 			isDroppable = true
 		elif(arrayAreaColliding[i].name == "PalletArea2D"):
-			dropShape()
+			var nPallet = get_nPallet()
+			if arrayAreaColliding[i].get_parent().name == "LeftPallet" && nPallet == 0 || arrayAreaColliding[i].get_parent().name == "CentralPallet" && nPallet == 1 || arrayAreaColliding[i].get_parent().name == "RightPallet" && nPallet == 2:
+				dropShape()
 		else:
 			isDroppable = false
 

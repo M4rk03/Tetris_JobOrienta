@@ -8,6 +8,7 @@ var palletTimer
 
 var nodeMain
 
+#
 func getCountdown():
 	return countdown
 

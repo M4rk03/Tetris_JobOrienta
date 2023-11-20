@@ -1,5 +1,6 @@
 extends Node2D
 
+#
 func _on_StartCountdown_game_start():
 	for x in range (0,8):
 		for y in range (0,8):
@@ -8,7 +9,8 @@ func _on_StartCountdown_game_start():
 			inside.position.y = (32 * y) + 16
 			add_child(inside)
 			inside.add_to_group("GridElements")
-			
+
+#
 func _on_PalletCountdown_change_pallet(nPallet):
 	match(nPallet):
 		1:

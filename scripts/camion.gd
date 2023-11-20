@@ -50,5 +50,6 @@ func _process(_delta):
 		
 		if position.x <= -300:
 			get_parent().get_node("LeftPallet/PalletCountdown").palletEnded()
+			#Pallet.queue_free()
 			go_out = false
 		
