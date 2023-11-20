@@ -66,8 +66,9 @@ func collisionShape(value):
 	for el in arrayPositionShape:
 		for i in range(0, 4):
 			var pos = blocks[i].global_position + value
-			if pos == el || (pos.x >= x_min && pos.x <= x_max && pos.y > 688):
-				n += 1
+			if pos.x >= x_min && pos.x <= x_max:
+				if pos == el || pos.y > 688:
+					n += 1
 	return n
 	
 #
