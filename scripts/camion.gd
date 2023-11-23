@@ -2,6 +2,7 @@ extends Sprite
 
 var callback = false
 var go_out = false
+var stopShape = false
 
 var Pallet
 var move
@@ -11,6 +12,7 @@ var loading
 func move_camion(nPallet):
 	callback = true
 	visible = true
+	stopShape = true
 	
 	match(nPallet):
 		1:
@@ -30,7 +32,7 @@ func move_camion(nPallet):
 func _process(_delta):
 	if callback:
 		position.x += 1
-		Pallet.get_child(0).modulate.a -= loading
+		Pallet.get_child(0).modulate.a -= loading 
 		
 		for x in Pallet.get_children():
 			if "GridElement" in x.name:
@@ -52,4 +54,5 @@ func _process(_delta):
 			get_parent().get_node("LeftPallet/PalletCountdown").palletEnded()
 			#Pallet.queue_free()
 			go_out = false
+			stopShape = false
 		

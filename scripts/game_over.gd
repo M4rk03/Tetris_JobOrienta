@@ -15,8 +15,8 @@ func _ready():
 	randomize()
 	var scoreValue = get_node("ScoreValue")
 	scoreValue.text = "Hai totalizzato " + str(points) + " punti!"
-	
-	
+
+#
 func save():
 	var textBox = get_node("ResultStore/InsertName")
 	player_name = textBox.text
@@ -25,10 +25,13 @@ func save():
 	var file = File.new()
 	if (file.file_exists(path)):
 		file.open(path, File.READ_WRITE)
-		var scores = parse_json(file.get_as_text())
-		id = max_id(scores) + 1
-		file.seek_end(-1)
-		file.store_string(",\n")
+		if file.is_open():
+			var scores = JSON.parse(file.get_as_text()).result
+			id = max_id(scores) + 1
+			file.seek_end(-1)
+			file.store_string(",\n")
+		else:
+			print("Failed to open file for reading.")
 	else:
 		file.open(path, File.WRITE)
 		file.store_line("{")

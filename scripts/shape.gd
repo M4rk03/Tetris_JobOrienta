@@ -10,7 +10,7 @@ export var isPickable = false
 var used = 0
 
 var shapeTimer
-var camion_callback
+var camion_stopShape
 
 var x_min
 var x_max
@@ -85,7 +85,7 @@ func controlCollision():
 	
 #
 func dropShape():
-	if isDroppable:
+	if isDroppable && get_nPallet() != 3:
 		if controlCollision():
 			isPickable = false
 			isDroppable = false
@@ -112,9 +112,9 @@ func checkIfDroppable():
 
 #		
 func _process(_delta):
-	camion_callback = get_parent().get_node("Camion").callback
+	camion_stopShape = get_parent().get_node("Camion").stopShape
 	
-	if isPickable && !camion_callback:
+	if isPickable && !camion_stopShape:
 		checkIfDroppable()
 			
 		if Input.is_action_just_pressed("rotate"):
@@ -149,7 +149,7 @@ func startShapeTimer():
 
 #
 func _on_Timer_timeout():
-	if isPickable && !camion_callback:
+	if isPickable && !camion_stopShape:
 		if collisionShape(Vector2(0,32)) == 0:
 			self.position.y += GRID_SIZE
 			startShapeTimer()
